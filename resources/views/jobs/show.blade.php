@@ -39,7 +39,9 @@
                 {{$job->description}}
             </p>
             <h4>Closing Date: {{$job->closing_date}}</h4>
-            <a href="#" class="btn btn-primary"><b>APPLY</b></a>
+            @if (Auth::user())
+                <a href="#" class="btn btn-primary"><b>APPLY</b></a>
+            @endif
         </div>
     </div>
 @endsection

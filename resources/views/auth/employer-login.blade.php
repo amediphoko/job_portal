@@ -61,6 +61,9 @@
                             </div>
                         </div>
                     </form>
+                    <div class="register col-md-offset-5">
+                        <p>Do not have an account? <a href="{{route('employer.register')}}">Register</a></p>
+                    </div>
                 </div>
             </div>
         </div>

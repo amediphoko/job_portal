@@ -18,20 +18,20 @@ Route::get('/', function () {
 Route::get('/', 'PagesController@index');
 Route::get('/aboutus', 'PagesController@aboutus');
 Route::get('/search', 'PagesController@search');
-Route::post('/search', function(){
-    $title = Input::get('title');
-    if ($title != "") {
-        $job = Job::where('title', 'LIKE', '%' . $title . '%')->get();
-        if(count($job) > 0)
-            return view('pages.search')->withDetails($job)->withQuery($title);
-    }
-    return view('pages.search')->withMessage('no job found.');
-});
+// Route::post('/search', function(){
+//     $title = Input::get('title');
+//     if ($title != "") {
+//         $job = Job::where('title', 'LIKE', '%' . $title . '%')->get();
+//         if(count($job) > 0)
+//             return view('pages.search')->withDetails($job)->withQuery($title);
+//     }
+//     return view('pages.search')->withMessage('no job found.');
+// });
 
 Route::resource('jobs', 'JobsController');
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('/users/logout', 'Auth\LoginController@userLogout')->name('user.logout');
 
 Route::prefix('employer')->group(function() {

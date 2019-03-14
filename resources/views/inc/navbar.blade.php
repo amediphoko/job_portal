@@ -43,7 +43,7 @@
 
                         <ul class="dropdown-menu" role="menu">
                             @if (Auth::guard('web')->check())
-                                <li><a href="/home">My Dashboard</a></li>
+                                <li><a href="/dashboard">My Dashboard</a></li>
                             @else
                                 <li><a href="/employer">My Dashboard</a></li>
                             @endif
@@ -66,8 +66,8 @@
                     <li><a href="/search">Search</a></li>
                     <li><a href="/jobs">Jobs</a></li>
                     <li><a href="/aboutus">About ITJOMS</a></li>
-                    <li><a href="{{ route('login') }}">Login</a></li>
-                    <li><a href="{{ route('register') }}">Register</a></li>
+                    <li><a href="{{ route('login') }}">Job Seeker</a></li>
+                    <li><a href="{{ route('employer.login') }}">Employer</a></li>
                 @endif
             </ul>
         </div>
