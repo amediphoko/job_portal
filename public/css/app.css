@@ -8333,7 +8333,8 @@ button.close {
   }
 }
 
-.media-body small {
+.media-body small,
+.list-group-item small {
   margin-right: 10em;
 }
 

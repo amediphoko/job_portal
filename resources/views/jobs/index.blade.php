@@ -18,8 +18,8 @@
                             <small>{{$job->closing_date}}</small>
                             <small>{{$job->category}}</small>
                             <small>{{$job->location}}</small>
-                            <p>
-                                {{$job->description}}
+                            <p style="height:4em">
+                                {{ $job->description }}
                             </p>
                         </div>
                     </a>

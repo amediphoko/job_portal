@@ -5,8 +5,8 @@
     <div class="row">
         <div class="col-md-3">
             <div class="panel panel-default">
-                <div class="companylogo" style="text-align:center; padding:10px">
-                    <img style="width:10em" src="/storage/company_logos/{{Auth::user()->logo}}" alt="Logo" class="img-circle">
+                <div class="companylogo" style="text-align:center; margin-top:1em">
+                    <img style="width:8em; height:8em" src="/storage/company_logos/{{Auth::user()->logo}}" alt="Logo" class="img-circle">
                 </div>
                 <div class="panel-body">
                     @if (session('status'))

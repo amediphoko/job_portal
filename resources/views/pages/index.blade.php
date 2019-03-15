@@ -36,22 +36,24 @@
             <h1 style="text-align:center">Available Jobs</h1>
             <hr>
             @if (count($jobs) > 0)
-                <div class="list-group">
+                <ul class="list-group list-group-flush">
                     @foreach ($jobs as $job)
                         <a href="/jobs/{{$job->id}}" class="list-group-item">
                             <img src="">
-                            <h4 class="list-group-item-heading">
+                            <h4>
                                 {{$job->title}}
                             </h4>
-                            <small>{{$job->closing_date}} | {{$job->category}} | {{$job->location}}</small>
-                            <p class="list-group-item-text">
+                            <small>{{$job->closing_date}}</small>
+                            <small>{{$job->category}}</small>
+                            <small>{{$job->location}}</small>
+                            <p>
                                 {{$job->description}}
                             </p>
                         </a>
-                        <br>
                     @endforeach
+                    <br>
                     <a href="/jobs" class="btn btn-default">BROWSE ALL JOBS</a>
-                </div>         
+                </ul>         
             @endif
         </div>
     </div>

@@ -8,7 +8,7 @@ use App\Job;
 class PagesController extends Controller
 {
     public function index() {
-        $jobs = Job::orderBy('created_at','desc')->take(4)->get();
+        $jobs = Job::orderBy('created_at','desc')->take(3)->get();
         return view('pages.index')->with('jobs', $jobs);
     }
 

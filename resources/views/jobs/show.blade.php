@@ -35,9 +35,9 @@
             <h1>{{$job->title}}</h1>
             <h5 style="padding:0.2em">Company: <b>{{$job->employer->name}}</b> Location: <b>{{$job->location}}</b></h5>
             <h3><b>Job Description</b></h3>
-            <p>
-                {{$job->description}}
-            </p>
+            <div>
+                {!! $job->description !!}
+            </div>
             <h4>Closing Date: {{$job->closing_date}}</h4>
             @if (Auth::user())
                 <a href="#" class="btn btn-primary"><b>APPLY</b></a>

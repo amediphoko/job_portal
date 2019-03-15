@@ -116,7 +116,7 @@ class EmployerRegisterController extends Controller
         Auth::guard('employer')->login($employer);
 
         return $this->registered($request, $employer)
-                        ?: redirect(route('/employer'));
+                        ?: redirect(route('employer'));
     }
 
     /**
