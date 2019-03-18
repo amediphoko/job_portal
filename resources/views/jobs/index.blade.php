@@ -15,11 +15,11 @@
                                 {{$job->title}}
                                 <span class="badge">{{$job->type}}</span>
                             </h4>
-                            <small>{{$job->closing_date}}</small>
-                            <small>{{$job->category}}</small>
-                            <small>{{$job->location}}</small>
+                            <i class="fa fa-calendar-times-o"></i><small> {{$job->closing_date}}</small>
+                            <i class="fa fa-briefcase"></i><small> {{$job->category}}</small>
+                            <i class="fa fa-map-marker"></i><small> {{$job->location}}</small>
                             <p style="height:4em">
-                                {{ $job->description }}
+                                {{ strip_tags($job->description) }}
                             </p>
                         </div>
                     </a>

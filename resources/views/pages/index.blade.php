@@ -2,14 +2,6 @@
 
 @section('content')
     <div class='row'>
-        {{-- <div class='col-xs-6 col-md-offset-3'>
-            <ul class="nav md-pills nav-justified pills-rounded pills-outline-red">
-                <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#panel89" role="tab">San Francisco <i class="far fa-grin ml-1"
-                        aria-hidden="true"></i></a>
-                </li>
-            </ul>
-        </div> --}}
         <div style="background-image:url({{asset('img/img.jpg')}}); background-repeat:no-repeat;
             background-size:cover; height:15em;  padding-top:1em">
             <h1 style="color:azure; text-align:center">Search for a Job</h1>
@@ -19,7 +11,7 @@
                     <input type="text" id="search" class="form-control">
                 </div>
                 <div class="form-group">
-                    <span class="icon"><i class="fa fa-location-arrow"></i></span>
+                    <span class="icon"><i class="fa fa-map-marker"></i></span>
                     <input type="text" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-default">FIND</button>
@@ -43,11 +35,11 @@
                             <h4>
                                 {{$job->title}}
                             </h4>
-                            <small>{{$job->closing_date}}</small>
-                            <small>{{$job->category}}</small>
-                            <small>{{$job->location}}</small>
-                            <p>
-                                {{$job->description}}
+                            <i class="fa fa-calendar-times-o"></i><small> {{$job->closing_date}}</small>
+                            <i class="fa fa-suitcase"></i><small> {{$job->category}}</small>
+                            <i class="fa fa-map-marker"></i><small> {{$job->location}}</small>
+                            <p style="height:2em">
+                                {{ strip_tags($job->description) }}
                             </p>
                         </a>
                     @endforeach

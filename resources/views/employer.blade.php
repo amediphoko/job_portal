@@ -1,49 +1,36 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="companylogo" style="text-align:center; margin-top:1em">
-                    <img style="width:8em; height:8em" src="/storage/company_logos/{{Auth::user()->logo}}" alt="Logo" class="img-circle">
-                </div>
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    <h3 style="text-align:center"><strong>{{Auth::user()->name}}</strong></h3>
-                    <ul style="list-style-type:none; marging:2em">
-                        <li>Location: <br> {{Auth::user()->location}}</li>
-                        <li>Email: <br> {{Auth::user()->email}}</li>
-                        <li>Contacts: <br> (+267) {{Auth::user()->contacts}}</li>
-                        <li>Industry: <br> {{Auth::user()->industry}}</li>
-                    </ul>
-                </div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="panel panel-default">
+            <div class="companylogo" style="text-align:center; margin-top:1em">
+                <img style="width:8em; height:8em" src="/storage/company_logos/{{Auth::user()->logo}}" alt="Logo" class="img-circle">
+            </div>
+            <div class="panel-body">
+                @if (session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                @endif
+                <h3 style="text-align:center"><strong>{{Auth::user()->name}}</strong></h3>
+                <ul style="list-style-type:none">
+                    <li><i class="fa fa-map-marker"></i> Location: <br> {{Auth::user()->location}}</li>
+                    <li><i class="fa fa-at"></i> Email: <br> {{Auth::user()->email}}</li>
+                    <li><i class="fa fa-phone-square"></i> Contacts: <br> (+267) {{Auth::user()->contacts}}</li>
+                    <li><i class="fa fa-industry"></i> Industry: <br> {{Auth::user()->industry}}</li>
+                </ul>
             </div>
         </div>
-        <div class="col-md-9">
-            <a href="/jobs/create" class="btn btn-primary pull-right">ADD JOB</a>
-            <ul id="employerInfo" class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active">
-                    <a href="#jobs" id="jobs-tab" role="tab" data-toggle="tab" aria-controls="jobs" aria-expanded="true">Jobs Posted</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="#applications" id="applications-tab" role="tab" data-toggle="tab" aria-controls="applications" aria-expanded="false">Applications</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="#reviewed" id="reviewed-tab" role="tab" data-toggle="tab" aria-controls="reviewed" aria-expanded="false">Reviewed</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="#shortlist" id="shortlist-tab" role="tab" data-toggle="tab" aria-controls="shortlist" aria-expanded="false">Shortlist</a>
-                </li>
-            </ul>
-            <div id="employerInfoContent" class="tab-content">
-                <div role="tabpanel" class="tab-pane fade active in" id="jobs" aria-labelledby="jobs-tab">
+    </div>
+    <div class="tab-wrap col-md-9">
+        <input type="radio" name="tabs" id="jobs-tab" checked>
+        <div class="tab-label-content" id="jobs-content">
+            <label for="jobs-tab"><i class="fa fa-suitcase"></i> Jobs Posted</label>
+            <div class="tab-content">
                     @if (count($jobs) > 0)
-                        <table class="table table-striped">
+                    <table class="table">
+                        <thead style="background-color:#faf8f8cc">
                             <tr>
                                 <th>Title</th>
                                 <th>Location</th>
@@ -54,7 +41,10 @@
                                 <th>Experience</th>
                                 <th>Status</th>
                             </tr>
-                            @foreach ($jobs as $job)
+                        </thead>
+                        <tbody style="padding:1em">
+                        @foreach ($jobs as $job)
+                            <a href="/jobs/{{$job->id}}">
                                 <tr>
                                     <td>{{$job->title}}</td>
                                     <td>{{$job->location}}</td>
@@ -63,23 +53,52 @@
                                     <td>{{$job->salary}}</td>
                                     <td>{{$job->qualification}}</td>
                                     <td>{{$job->experience}}</td>
-                                    <td></td>
+                                    <td>
+                                        @if ($job->closing_date > Carbon\Carbon::now())
+                                            <i class="fa fa-circle" style="color:#4ae00ece"></i> Open
+                                        @else
+                                        <i class="fa fa-circle" style="color:red"></i> Closed
+                                        @endif
+                                    </td>
                                 </tr>
-                            @endforeach
-                        </table>
-                    @endif
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="applications" aria-labelledby="applications-tab">
-                    <p>Applications List</p>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="reviewed" aria-labelledby="reviewed-tab">
-                    <p>Applications Reviewed List</p>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="shortlist" aria-labelledby="shortlist-tab">
-                    <p>Shortlisted Applicants</p>
-                </div>
+                            </a>
+                        @endforeach
+                        </tbody>
+                    </table>
+                @endif
             </div>
         </div>
+        <input type="radio" name="tabs" id="applications-tab">
+        <div class="tab-label-content" id="applications-content">
+            <label for="applications-tab"><i class="fa fa-clipboard"></i> Applications</label>
+            <div class="tab-content">
+                TAB 2 - Fusce pellentesque nunc nec arcu feugiat accumsan.
+                Praesent mauris sem, eleifend sit amet tortor in, cursus vehicula arcu.
+                Curabitur convallis sit amet nunc ac feugiat. Sed at risus id diam porta pretium id vel felis.
+                Donec nec dui id nisl hendrerit laoreet eu id odio.
+            </div>
+        </div>
+        <input type="radio" name="tabs" id="reviewed-tab">
+        <div class="tab-label-content" id="reviewed-content">
+            <label for="reviewed-tab"><i class="fa fa-pencil-square-o"></i> Reviewed</label>
+            <div class="tab-content">
+                TAB 3 - Fusce pellentesque nunc nec arcu feugiat accumsan.
+                Praesent mauris sem, eleifend sit amet tortor in, cursus vehicula arcu.
+                Curabitur convallis sit amet nunc ac feugiat. Sed at risus id diam porta pretium id vel felis.
+                Donec nec dui id nisl hendrerit laoreet eu id odio.
+            </div>
+        </div>
+        <input type="radio" name="tabs" id="shortlist-tab">
+        <div class="tab-label-content" id="shortlist-content">
+            <label for="shortlist-tab"><i class="fa fa-list-alt"></i> Shortlist</label>
+            <div class="tab-content">
+                TAB 4 - Fusce pellentesque nunc nec arcu feugiat accumsan.
+                Praesent mauris sem, eleifend sit amet tortor in, cursus vehicula arcu.
+                Curabitur convallis sit amet nunc ac feugiat. Sed at risus id diam porta pretium id vel felis.
+                Donec nec dui id nisl hendrerit laoreet eu id odio.
+            </div>
+        </div>
+        <div class="slide"></div>
     </div>
 </div>
 @endsection

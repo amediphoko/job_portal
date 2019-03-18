@@ -16,33 +16,71 @@
                     @endif
                     <h3 style="text-align:center"><strong>{{Auth::user()->name}} {{Auth::user()->last_name}}</strong></h3>
                     <ul style="list-style-type:none; marging:2em">
-                        <li>Date of Birth: <br> {{Auth::user()->dob}}</li>
-                        <li>Gender: <br> {{Auth::user()->gender}}</li>
-                        <li>Email: <br> {{Auth::user()->email}}</li>
-                        <li>Contact: <br> (+267) {{Auth::user()->contacts}}</li>
-                        <li>Residence: <br> {{Auth::user()->residence}}</li>
-                        <li>Qualification: <br> {{Auth::user()->qualification}}</li>
+                        <li><i class="fa fa-calendar-o"></i> Date of Birth: <br> {{Auth::user()->dob}}</li>
+                        <li>
+                            @if (Auth::user()->gender == 'Female')
+                                <i class="fa fa-female"></i> Gender: <br> {{Auth::user()->gender}}
+                            @else
+                            <i class="fa fa-male"></i> Gender: <br> {{Auth::user()->gender}}
+                            @endif
+                        </li>
+                        <li><i class="fa fa-at"></i> Email: <br> {{Auth::user()->email}}</li>
+                        <li><i class="fa fa-phone-square"></i> Contact: <br> (+267) {{Auth::user()->contacts}}</li>
+                        <li><i class="fa fa-building"></i> Residence: <br> {{Auth::user()->residence}}</li>
+                        <li><i class="fa fa-graduation-cap"></i> Qualification: <br> {{Auth::user()->qualification}}</li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
-            <ul id="userInfo" class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active">
-                    <a href="#applications" id="applications-tab" role="tab" data-toggle="tab" aria-controls="applications" aria-expanded="true">Applications</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="#messages" id="messages-tab" role="tab" data-toggle="tab" aria-controls="messages" aria-expanded="false">Messages</a>
-                </li>
-            </ul>
-            <div id="userInfoContent" class="tab-content">
-                <div role="tabpanel" class="tab-pane fade active in" id="applications" aria-labelledby="applications-tab">
-                    <p>Applications</p>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="messages" aria-labelledby="messages-tab">
-                    <p>Messages</p>
+        <div class="tab-wrap col-md-9" id="users-tab">
+            <input type="radio" name="tabs" id="applications-tab" checked>
+            <div class="tab-label-content" id="applications-content">
+                <label for="applications-tab"><i class="fa fa-clipboard"></i> Applications 
+                    <span class="badge pull-right">{{count($applications)}}</span></label>
+                <div class="tab-content">
+                    @if (count($applications) > 0)
+                        <table class="table">
+                            <thead style="background-color:#faf8f8cc">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Job Name</th>
+                                    <th>Employer</th>
+                                    <th>Category</th>
+                                    <th>Documents</th>
+                                    <th>Status</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($applications as $application)
+                                    <tr>
+                                        <td>{{$application->id}}</td>
+                                        <td>{{$application->job->title}}</td>
+                                        <td>{{$application->employer->name}}</td>
+                                        <td>{{$application->job->category}}</td>
+                                        <td><i class="fa fa-file-pdf-o"></i> {{$application->documents}}</td>
+                                        <td><i class="fa fa-exclamation-circle"></i> {{ $application->status }}</td>
+                                        <td><a href="#"><i style="color:red; font-size:1.5em" class="fa fa-times-circle"></i></a></td>
+                                    </tr>
+                                @endforeach  
+                            </tbody>
+                        </table>
+                    @else
+                        <p>No Applications made yet.</p>
+                    @endif
                 </div>
             </div>
+            <input type="radio" name="tabs" id="messages-tab">
+            <div class="tab-label-content" id="messages-content">
+                <label for="messages-tab"><i class="fa fa-envelope"></i> Messages</label>
+                <div class="tab-content">
+                    TAB 2 - Fusce pellentesque nunc nec arcu feugiat accumsan.
+                    Praesent mauris sem, eleifend sit amet tortor in, cursus vehicula arcu.
+                    Curabitur convallis sit amet nunc ac feugiat. Sed at risus id diam porta pretium id vel felis.
+                    Donec nec dui id nisl hendrerit laoreet eu id odio.
+                </div>
+            </div>
+            <div class="slide"></div>
         </div>
     </div>
 </div>

@@ -29,6 +29,8 @@ Route::get('/search', 'PagesController@search');
 // });
 
 Route::resource('jobs', 'JobsController');
+Route::resource('applications', 'ApplicationsController');
+
 Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
