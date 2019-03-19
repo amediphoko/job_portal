@@ -2,6 +2,11 @@
 
 @section('content')
 <div class="row">
+    <button href="/create" class="btn btn-primary pull-right">
+        <i class="fa fa-plus">ADD A JOB</i>
+    </button>
+</div>
+<div class="row">
     <div class="col-md-3">
         <div class="panel panel-default">
             <div class="companylogo" style="text-align:center; margin-top:1em">
@@ -24,9 +29,6 @@
         </div>
     </div>
     <div class="tab-wrap col-md-9">
-        <button class="btn btn-primary pull-right">
-            <i class="fa fa-plus">ADD A JOB</i>
-        </button>
         <input type="radio" name="tabs" id="jobs-tab" checked>
         <div class="tab-label-content" id="jobs-content">
             <label for="jobs-tab"><i class="fa fa-suitcase"></i> Jobs Posted 
