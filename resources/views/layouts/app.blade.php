@@ -29,5 +29,10 @@
     <script>
         CKEDITOR.replace( 'article-ckeditor' );
     </script>
+    <script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+    </script>
 </body>
 </html>

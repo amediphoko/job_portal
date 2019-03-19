@@ -60,7 +60,11 @@
                                         <td>{{$application->job->category}}</td>
                                         <td><i class="fa fa-file-pdf-o"></i> {{$application->documents}}</td>
                                         <td><i class="fa fa-exclamation-circle"></i> {{ $application->status }}</td>
-                                        <td><a href="#"><i style="color:red; font-size:1.5em" class="fa fa-times-circle"></i></a></td>
+                                        <td>
+                                            <a href="#" data-toggle="tooltip" title="" data-original-title="Delete Application">
+                                                <i style="color:red; font-size:1.5em" class="fa fa-times-circle"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                 @endforeach  
                             </tbody>

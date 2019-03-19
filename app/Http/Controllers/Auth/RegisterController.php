@@ -57,7 +57,8 @@ class RegisterController extends Controller
             'contacts' => 'required|integer',
             'residence' => 'required|string|max:191',
             'qualification' => 'required|string|max:191',
-            'documents' => 'file|nullable',
+            'documents' => 'required',
+            'documents.*' => 'mimes:pdf',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -71,30 +72,28 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $request = app('request');
-        if ($request->hasfile('pro_pic') && $request->hasfile('documents')) {
+        if ($request->hasfile('pro_pic')) {
             //Get filename with the extension
             $filenamewithExt = $request->file('pro_pic')->getClientOriginalName();
-            //Get document name with the extension
-            $docnamewithExt = $request->file('documents')->getClientOriginalName();
             //Get just filename
             $filename = pathinfo($filenamewithExt, PATHINFO_FILENAME);
-            //Get just document name
-            $docname = pathinfo($docnamewithExt, PATHINFO_FILENAME);
             //Get just the ext
             $extension = $request->file('pro_pic')->getClientOriginalExtension();
-            //Get the document ext
-            $docext = $request->file('documents')->getClientOriginalExtension();
             //Filename to upload
             $fileNameToUpload = $filename.'_'.time().'.'.$extension;
-
-            $docNameToUpload = $docname.'_'.time().'.'.$docext;
             ///Upload Image
             $path = $request->file('pro_pic')->storeAs('public/profile_pictures', $fileNameToUpload);
-            //Upload Document
-            $path = $request->file('documents')->storeAs('public/documents', $docNameToUpload);
+        }if ($request->hasfile('documents')) {
+            foreach($request->file('documents') as $file){
+                $name = $file->getClientOriginalName();
+                $filename = pathinfo($name, PATHINFO_FILENAME);
+                $extension = $file->getClientOriginalExtension();
+                $fileToUpload = $filename.'_'.time().'.'.$extension;
+                $file->storeAs('public/documents', $fileToUpload);
+                $files[] = $fileToUpload;
+            }
         } else {
             $fileNameToUpload = 'default.jpg';
-            $docNameToUpload = null;
         }
 
         return User::create([
@@ -107,7 +106,7 @@ class RegisterController extends Controller
             'contacts' => $data['contacts'],
             'residence' => $data['residence'],
             'qualification' => $data['qualification'],
-            'documents' => $docNameToUpload,
+            'documents' => json_encode($files),
             'password' => bcrypt($data['password']),
         ]);
     }

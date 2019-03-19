@@ -79,7 +79,12 @@ class JobsController extends Controller
     public function show($id)
     {
         $job = Job::find($id);
-        return view('jobs.show')->with('job', $job);
+        if(auth()->user()){
+            $applied = auth()->user()->applications()->where('job_id', $job->id)->get();
+            return view('jobs.show')->with(['job'=> $job, 'applied'=> $applied]);
+        }else{
+            return view('jobs.show')->with('job', $job);
+        }
     }
 
     /**

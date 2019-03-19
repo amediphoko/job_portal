@@ -1,5 +1,7 @@
 <?php
-
+use App\Notifications\NewApplication;
+use App\User;
+use App\Job;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +20,7 @@ Route::get('/', function () {
 Route::get('/', 'PagesController@index');
 Route::get('/aboutus', 'PagesController@aboutus');
 Route::get('/search', 'PagesController@search');
+
 // Route::post('/search', function(){
 //     $title = Input::get('title');
 //     if ($title != "") {

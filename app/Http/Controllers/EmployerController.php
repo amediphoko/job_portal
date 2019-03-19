@@ -26,6 +26,6 @@ class EmployerController extends Controller
     {
         $employer_id = auth('employer')->user()->id;
         $employer = Employer::find($employer_id);
-        return view('employer')->with('jobs', $employer->jobs);
+        return view('employer')->with(['jobs'=> $employer->jobs, 'applications'=>$employer->applications]);
     }
 }

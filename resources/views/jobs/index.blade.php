@@ -8,6 +8,7 @@
         @if(count($jobs) > 0)
             <ul class="list-group list-group-flush">
                 @foreach($jobs as $job)
+                    @if ($job->closing_date > Carbon\Carbon::now())
                     <a href="/jobs/{{$job->id}}" class="list-group-item">
                         <img style="width:5em; padding-top:1em" src="/storage/company_logos/{{$job->employer->logo}}" alt="Logo" class="pull-left">
                         <div style="padding-left:1em" class="media-body">
@@ -23,6 +24,7 @@
                             </p>
                         </div>
                     </a>
+                    @endif
                 @endforeach
             </ul>
         <div style="position:relative; left:50%">{{$jobs->links()}}</div>

@@ -24,9 +24,13 @@
         </div>
     </div>
     <div class="tab-wrap col-md-9">
+        <button class="btn btn-primary pull-right">
+            <i class="fa fa-plus">ADD A JOB</i>
+        </button>
         <input type="radio" name="tabs" id="jobs-tab" checked>
         <div class="tab-label-content" id="jobs-content">
-            <label for="jobs-tab"><i class="fa fa-suitcase"></i> Jobs Posted</label>
+            <label for="jobs-tab"><i class="fa fa-suitcase"></i> Jobs Posted 
+                <span class="badge pull-right">{{count($jobs)}}</span></label>
             <div class="tab-content">
                     @if (count($jobs) > 0)
                     <table class="table">
@@ -70,32 +74,59 @@
         </div>
         <input type="radio" name="tabs" id="applications-tab">
         <div class="tab-label-content" id="applications-content">
-            <label for="applications-tab"><i class="fa fa-clipboard"></i> Applications</label>
+            <label for="applications-tab"><i class="fa fa-clipboard"></i> Applications
+                <span class="badge pull-right">{{count($applications)}}</span></label>
             <div class="tab-content">
-                TAB 2 - Fusce pellentesque nunc nec arcu feugiat accumsan.
-                Praesent mauris sem, eleifend sit amet tortor in, cursus vehicula arcu.
-                Curabitur convallis sit amet nunc ac feugiat. Sed at risus id diam porta pretium id vel felis.
-                Donec nec dui id nisl hendrerit laoreet eu id odio.
+                @if (count($applications) > 0)
+                    <table class="table">
+                        <thead style="background-color:#faf8f8cc">
+                            <tr>
+                                <th>ID</th>
+                                <th>Job Name</th>
+                                <th>Applicant</th>
+                                <th>Qualification</th>
+                                <th>Documents</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($applications as $application)
+                                @if ($application->status == 'pending')
+                                    <tr>
+                                        <td>{{$application->id}}</td>
+                                        <td>{{$application->job->title}}</td>
+                                        <td>{{$application->user->name.' '.$application->user->last_name}}</td>
+                                        <td>{{$application->user->qualification}}</td>
+                                        <td><i class="fa fa-file-pdf-o"></i> {{$application->documents}}</td>
+                                        <td>
+                                            <a href=""><i class="fa fa-pencil-square-o"></i>review</a>
+                                        </td>
+                                        <td>
+                                            <a href=""><i class="fa fa-list-alt"></i> shortlist</a>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach  
+                        </tbody>
+                    </table>
+                @else
+                    <p>No Applications made yet.</p>
+                @endif
             </div>
         </div>
         <input type="radio" name="tabs" id="reviewed-tab">
         <div class="tab-label-content" id="reviewed-content">
             <label for="reviewed-tab"><i class="fa fa-pencil-square-o"></i> Reviewed</label>
             <div class="tab-content">
-                TAB 3 - Fusce pellentesque nunc nec arcu feugiat accumsan.
-                Praesent mauris sem, eleifend sit amet tortor in, cursus vehicula arcu.
-                Curabitur convallis sit amet nunc ac feugiat. Sed at risus id diam porta pretium id vel felis.
-                Donec nec dui id nisl hendrerit laoreet eu id odio.
+                TAB 3 - Reviewed
             </div>
         </div>
         <input type="radio" name="tabs" id="shortlist-tab">
         <div class="tab-label-content" id="shortlist-content">
             <label for="shortlist-tab"><i class="fa fa-list-alt"></i> Shortlist</label>
             <div class="tab-content">
-                TAB 4 - Fusce pellentesque nunc nec arcu feugiat accumsan.
-                Praesent mauris sem, eleifend sit amet tortor in, cursus vehicula arcu.
-                Curabitur convallis sit amet nunc ac feugiat. Sed at risus id diam porta pretium id vel felis.
-                Donec nec dui id nisl hendrerit laoreet eu id odio.
+                TAB 4 - Shortlist
             </div>
         </div>
         <div class="slide"></div>

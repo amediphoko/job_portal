@@ -41,15 +41,19 @@
                 {!! $job->description !!}
             </div>
             @if (Auth::user())
-            {!! $job->application !!}
-                {!! Form::open(['action' => 'ApplicationsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
-                    {{Form::number('id', $job->id.Auth::user()->id, ['class'=>'hidden'])}}
-                    {{Form::number('user_id', Auth::user()->id, ['class'=>'hidden'])}}
-                    {{Form::number('employer_id', $job->employer->id, ['class'=>'hidden'])}}
-                    {{Form::number('job_id', $job->id, ['class'=>'hidden'])}}
-                    {{Form::text('documents', Auth::user()->documents, ['class'=>'hidden'])}}
-                    {{Form::submit('APPLY', ['class' => 'btn btn-primary'])}}
-                {!! Form::close() !!}
+                @if (count($applied))
+                    {!! Form::open() !!}
+                        {{Form::submit('APPLIED', ['class' => 'btn btn-default', 'disabled' => 'disabled'])}}
+                    {!! Form::close() !!}
+                @else
+                    {!! Form::open(['action' => 'ApplicationsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                        {{Form::number('id', $job->id.Auth::user()->id, ['class'=>'hidden'])}}
+                        {{Form::number('user_id', Auth::user()->id, ['class'=>'hidden'])}}
+                        {{Form::number('employer_id', $job->employer->id, ['class'=>'hidden'])}}
+                        {{Form::number('job_id', $job->id, ['class'=>'hidden'])}}
+                        {{Form::submit('APPLY', ['name' => 'apply', 'class' => 'btn btn-primary'])}}
+                    {!! Form::close() !!}
+                @endif
             @endif
         </div>
     </div>

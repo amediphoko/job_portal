@@ -148,7 +148,7 @@
                             <label for="documents" class="col-md-4 control-label">Documents</label>
 
                             <div class="col-md-6">
-                                <input id="documents" type="file" name="documents" autofocus>
+                                <input id="documents" type="file" name="documents[]" multiple>
 
                                 @if ($errors->has('documents'))
                                     <span class="help-block">

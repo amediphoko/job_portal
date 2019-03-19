@@ -41,30 +41,22 @@ class ApplicationsController extends Controller
             'user_id' => 'required|integer|unique:applications',
             'employer_id' => 'required|integer|unique:applications',
             'job_id' => 'required|integer|unique:applications',
-            'documents' => 'required|nullable',
+            'documents' => 'required',
+            'documents.*' => 'mimes:pdf'
         ]);
+
+        $documents = auth()->user()->documents;
 
         $application = new Application;
         $application->id = $request->input('id');
         $application->user_id = $request->input('user_id');
         $application->employer_id = $request->input('employer_id');
         $application->job_id = $request->input('job_id');
-        $application->documents = $request->input('documents');
+        $application->documents = $documents;
         $application->save();
 
         return redirect('/dashboard')->with('success', 'Application Submitted.');
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
