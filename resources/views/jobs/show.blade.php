@@ -54,6 +54,14 @@
                         {{Form::submit('APPLY', ['name' => 'apply', 'class' => 'btn btn-primary'])}}
                     {!! Form::close() !!}
                 @endif
+            @elseif (Auth::guard('employer')->user())
+                @if (Auth::guard('employer')->user()->id == $job->employer_id)
+                    <a href="/jobs/{{$job->id}}/edit" class="btn btn-default">Edit</a>
+                    {!!Form::open(['action' => ['JobsController@destroy', $job->id], 'method' => 'POST', 'class' => 'pull-right'])!!}
+                        {{Form::hidden('_method', 'DELETE')}}
+                        {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                    {!!Form::close()!!}
+                @endif
             @endif
         </div>
     </div>

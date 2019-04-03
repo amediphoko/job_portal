@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="tab-wrap col-md-9" id="users-tab">
-            <input type="radio" name="tabs" id="applications-tab" checked>
+            <input type="radio" name="tabs" id="applications-tab">
             <div class="tab-label-content" id="applications-content">
                 <label for="applications-tab"><i class="fa fa-clipboard"></i> Applications 
                     <span class="badge pull-right">{{count($applications)}}</span></label>
@@ -48,7 +48,7 @@
                                     <th>Category</th>
                                     <th>Documents</th>
                                     <th>Status</th>
-                                    <th>Delete</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,12 +58,19 @@
                                         <td>{{$application->job->title}}</td>
                                         <td>{{$application->employer->name}}</td>
                                         <td>{{$application->job->category}}</td>
-                                        <td><i class="fa fa-file-pdf-o"></i> {{$application->documents}}</td>
+                                        <td>
+                                            @foreach (json_decode($application->documents) as $document)
+                                                <a href="/download/{{$document}}"><i style="color:red" class="fa fa-file-pdf-o"></i> {{ $document }}</a><br/>
+                                            @endforeach
+                                        </td>
                                         <td><i class="fa fa-exclamation-circle"></i> {{ $application->status }}</td>
                                         <td>
-                                            <a href="#" data-toggle="tooltip" title="" data-original-title="Delete Application">
-                                                <i style="color:red; font-size:1.5em" class="fa fa-times-circle"></i>
-                                            </a>
+                                            {!!Form::open(['action' => ['ApplicationsController@destroy', $application->id], 'method' => 'POST'])!!}
+                                                {{Form::hidden('_method', 'DELETE')}}
+                                                <i style="color:red" class="fa fa-trash">
+                                                {{Form::submit(' Delete', ['style' => 'background-color:transparent; border:none; color:red; font-style:sans-serif', 'data-toggle' => 'tooltip', 'data-original-title' => 'Delete Application'])}}
+                                                </i>
+                                            {!!Form::close()!!}
                                         </td>
                                     </tr>
                                 @endforeach  
@@ -74,14 +81,93 @@
                     @endif
                 </div>
             </div>
-            <input type="radio" name="tabs" id="messages-tab">
+            <input type="radio" name="tabs" id="messages-tab" checked>
             <div class="tab-label-content" id="messages-content">
-                <label for="messages-tab"><i class="fa fa-envelope"></i> Messages</label>
-                <div class="tab-content">
-                    TAB 2 - Fusce pellentesque nunc nec arcu feugiat accumsan.
-                    Praesent mauris sem, eleifend sit amet tortor in, cursus vehicula arcu.
-                    Curabitur convallis sit amet nunc ac feugiat. Sed at risus id diam porta pretium id vel felis.
-                    Donec nec dui id nisl hendrerit laoreet eu id odio.
+                <label for="messages-tab"><i class="fa fa-envelope"></i> Messages 
+                    <span class="badge pull-right">{{count($inboxes)}}</span></label>
+                <div class="tab-content inbox">
+                    
+                    {{-- INBOX THINGY --}}
+                    <div class="container-fluid" id="hideThis">
+                        <div class="row clearfix">
+                            <div class="col-lg-12 hd">
+                                <div class="card action_bar">
+                                    <div class="body">
+                                        <div class="row clearfix">
+                                            <div class="col-lg-1 col-md-2 col-3">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                        All <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li><a href="#">None</a></li>
+                                                        <li><a href="#">Read</a></li>
+                                                        <li><a href="#">Unread</a></li>
+                                                    </ul>
+                                                </div>                               
+                                            </div>
+                                            <div class="col-lg-1 col-md-2 col-3">
+                                                <button class="btn btn-default btn-sm tooltips" type="button" data-toggle="tooltip" data-container="body" title="" data-original-title="Delete">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </button>
+                                            </div>
+                                            <div class="col-lg-5 col-md-4 col-6">
+                                                <div class="input-group search">
+                                                    <input type="text" class="form-control" placeholder="Search...">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-search"></i>
+                                                    </span>
+                                                </div>
+                                            </div>                                                     
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>         
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-email">
+                                @if (count($inboxes) > 0)
+                                <tbody>
+                                    @foreach ($inboxes as $inbox)
+                                    <tr class="{{$inbox->status}} clickable-row" data-href="/dashboard/{{$inbox->id}}" >
+                                            <td>
+                                                <div class="ckbox ckbox-theme">
+                                                    <input id="ck_{{$inbox->id}}" type="checkbox" name="inbox[]" value="{{$inbox->id}}" class="mail-checkbox">
+                                                    <label for="ck_{{$inbox->id}}"></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="media">
+                                                    <div class="pull-left">
+                                                        <img alt="..." src="/storage/company_logos/{{$inbox->employer->logo}}" class="media-object">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <p class="text-primary">{{$inbox->employer->name}}</p>
+                                                        <small class="pull-right text-muted"><time class="hidden-sm-down" datetime="2017">12:35 AM</time></small>
+                                                        <p class="subject">{{$inbox->subject}}</p>
+                                                        <p class="email-summary">
+                                                            {{strip_tags($inbox->message)}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                                @else
+                                    <div>
+                                        <p style="text-align:center"><b>No Messages.</b></p>
+                                    </div>
+                                @endif
+                            </table>
+                            <div class="card m-t-5">
+                                <div class="body" style="text-align:center">
+                                    {{$inboxes->links()}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- END OF INBOX THINGY --}}
                 </div>
             </div>
             <div class="slide"></div>

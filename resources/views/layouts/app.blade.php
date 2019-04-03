@@ -14,13 +14,13 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    
     <div id="app">
         @include('inc.navbar')
         <div class="container" style="margin-top:3.6em">
             @include('inc.messages')
             @yield('content')
         </div>
+        @include('inc.footer')
     </div>
 
     <!-- Scripts -->
@@ -30,9 +30,19 @@
         CKEDITOR.replace( 'article-ckeditor' );
     </script>
     <script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+    </script>
+    <script>
+        jQuery(document).ready(function() {
+            $(".clickable-row").click(function(e) {
+                if((e.target).tagName == 'INPUT') return true;
+                e.preventDefault();
+                $("#ck_"+$(this).attr('id')).prop('checked', !$("#ck_"+$(this).attr('id')).prop('checked'));
+                window.location = $(this).data("href");
+            });
+        });
     </script>
 </body>
 </html>

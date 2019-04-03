@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Job;
 
@@ -9,18 +10,29 @@ class JobsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:employer', ['except' => ['index', 'show']]);
+        $this->middleware('auth:employer', ['except' => ['index', 'show', 'catFilter']]);
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // $jobs = Job::all();
-        $jobs = Job::orderBy('created_at', 'desc')->paginate(7);
-        return view('jobs.index')->with('jobs', $jobs);
+        //query results for all job entries
+        $jobs_all = Job::all()->where('closing_date', '>=', Carbon::now());
+        //filters job entries and return query
+        $jobs = Job::filter($request)->paginate(5);
+        //query results for unique job category entries
+        $categories = Job::select('category')->distinct()->pluck('category');
+        //query results for unique job type entries
+        $types = Job::select('type')->distinct()->pluck('type');
+
+        return view('jobs.index')->with([   'jobs' => $jobs,
+                                            'categories' => $categories,
+                                            'jobs_all' => $jobs_all,
+                                            'types' => $types]);
+
     }
 
     /**
@@ -95,7 +107,12 @@ class JobsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $job = Job::find($id);
+        //check for correct user
+        if(auth()->user()->id !== $job->employer_id) {
+            return redirect('/jobs')->with('error', 'UnAuthorised Page.');
+        }
+        return view('jobs.edit')->with('job', $job); 
     }
 
     /**
@@ -107,7 +124,33 @@ class JobsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'location' => 'required',
+            'category' => 'required',
+            'type' => 'required',
+            'experience' => 'required',
+            'qualification' => 'required',
+            'salary' => 'required',
+            'closing_date' => 'required',
+            'description' => 'required'
+        ]);
+        
+        //Create New Job
+        $job = Job::find($id);
+        $job->title = $request->input('title');
+        $job->location = $request->input('location');
+        $job->category = $request->input('category');
+        $job->type = $request->input('type');
+        $job->experience = $request->input('experience');
+        $job->qualification = $request->input('qualification');
+        $job->salary = $request->input('salary');
+        $job->closing_date = $request->input('closing_date');
+        $job->description = $request->input('description');
+        $job->employer_id = auth('employer')->user()->id;
+        $job->save();
+
+        return redirect('/jobs')->with('success', 'Job Updated');
     }
 
     /**
@@ -118,6 +161,26 @@ class JobsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $job = Job::find($id);
+        //check for correct user
+        if(auth()->user()->id !== $job->employer_id) {
+            return redirect('/jobs')->with('error', 'UnAuthorised Page.');
+        }
+        
+        if (count($job->applications) > 0) {
+            foreach ($job->applications as $application) {
+                if ($application->status == 'pending') {
+                    return redirect('/jobs')->with('error', 'Job Applications are still Pending.');
+                    break;
+                } else {
+                    $application->delete();
+                }
+            }
+            $job->delete();
+            return redirect('/jobs')->with('success', 'Job Deleted');
+        } else {
+            $job->delete();
+            return redirect('/jobs')->with('success', 'Job Deleted');
+        }
     }
 }

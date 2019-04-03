@@ -5,14 +5,14 @@
         <div style="background-image:url({{asset('img/img.jpg')}}); background-repeat:no-repeat;
             background-size:cover; height:15em;  padding-top:1em">
             <h1 style="color:azure; text-align:center">Search for a Job</h1>
-            <form class="form-inline" style="padding:10px; position:relative; left:30%">
+            <form action="{{url('search')}}" method="GET" class="form-inline" style="padding:10px; position:relative; left:30%">
                 <div class="form-group">
                     <span class="icon"><i class="fa fa-search"></i></span>
-                    <input type="text" id="search" class="form-control">
+                    <input type="text" id="title" name="title" class="form-control">
                 </div>
                 <div class="form-group">
                     <span class="icon"><i class="fa fa-map-marker"></i></span>
-                    <input type="text" class="form-control">
+                    <input type="text" id="location" name="location" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-default">FIND</button>
             </form>

@@ -12,12 +12,28 @@ class PagesController extends Controller
         return view('pages.index')->with('jobs', $jobs);
     }
 
-    public function aboutus() {
-        return view('pages.aboutus');
+    public function forum() {
+        return view('pages.forum');
     }
 
-    public function search() {
-        return view('pages.search');
+    public function search(Request $request) {
+        $title = $request->title;
+        $location = $request->location;
+
+
+        //query jobs resource for search results
+        if ($title != null and $location != null) {
+            $data = Job::where('title', 'like', '%' . $title . '%')
+                            ->orWhere('location', 'like', '%' . $location . '%')->get();
+        } elseif ($title == null and $location != null) {
+            $data = Job::where('location', 'like' , '%' . $location . '%')->get();
+        } elseif ($title != null and $location == null) {
+            $data = Job::where('title', 'like' , '%' . $title . '%')->get();
+        }else{
+            $data = null;
+        }
+        
+        return view('pages.search')->with(['data' => $data, 'title' => $title, 'location' => $location]);
     }
 
 }

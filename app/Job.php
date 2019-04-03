@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Filters\JobFilter;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Job extends Model
 {
@@ -19,5 +21,10 @@ class Job extends Model
 
     public function applications() {
         return $this->hasMany('App\Application');
+    }
+
+    public function scopeFilter(Builder $builder, $request)
+    {
+        return (new JobFilter($request))->filter($builder);
     }
 }

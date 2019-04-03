@@ -11396,6 +11396,46 @@ button.close {
   margin-right: 5em;
 }
 
+#search .form-group {
+  display: inline;
+}
+
+#search label {
+  font-size: 1.2em;
+}
+
+a.list-group-item:hover {
+  background: #e1fbff;
+}
+
+.card-body div.initial {
+  border-radius: 50%;
+  background: teal;
+  width: 40px;
+  line-height: 40px;
+  color: #fff;
+  text-align: right;
+  font-size: 24px;
+  font-weight: 200;
+}
+
+.card-body .media-body {
+  padding-left: 20px;
+}
+
+.card .footer {
+  padding-left: 10px;
+  padding-bottom: 30px;
+  font-size: 15px;
+  color: turquoise;
+  cursor: pointer;
+}
+
+.card .footer a:hover {
+  text-decoration: none;
+  color: #32b9f8;
+}
+
 .tab-wrap label,
 .tab-wrap p,
 .tab-wrap a,
@@ -11523,5 +11563,121 @@ input[type="radio"][name="tabs"]:first-of-type:checked ~ .slide {
     width: 80%;
     margin-left: 10%;
   }
+}
+
+/*************
+*Inbox Design
+**************/
+
+#messages-content .hd {
+  border-top: .9em solid #f5f8fa;
+}
+
+#messages-content .action_bar {
+  background: #fff;
+  margin-bottom: 20px;
+  -webkit-transition: .5s;
+  transition: .5s;
+  border: 0;
+  border-radius: .1875rem;
+  padding-top: 15px;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.inbox .action_bar .btn,
+.inbox .action_bar .search {
+  margin: 0;
+}
+
+.table-email tr:first-child td {
+  border-top: none;
+}
+
+.table-email tr td {
+  vertical-align: top !important;
+  border-bottom: 1px solid #d4d4d4;
+  height: 2em;
+}
+
+.table-email tr.unread,
+.table-email tr.selected {
+  border-left: .3em solid #32b9f8;
+}
+
+.table-email tr.read {
+  background: #fafafa;
+}
+
+.table-email .unread p.text-primary,
+.table-email .unread p.subject {
+  color: #333;
+  font-weight: 700;
+}
+
+.table-email .media {
+  margin: 0px;
+  padding: 0px;
+  position: relative;
+}
+
+.table-email .media p.text-primary {
+  margin: 0px;
+  font-size: 16px;
+  line-height: normal;
+}
+
+.table-email .media-object {
+  width: 35px;
+  border-radius: 2px;
+}
+
+.table-email .media-meta {
+  top: 0px;
+}
+
+.table-email .email-summary {
+  margin: 0px 110px 0px 0px;
+  height: 20px;
+  overflow: hidden;
+}
+
+.table-email .email-summary strong {
+  color: #333;
+}
+
+.table-email .email-summary span {
+  line-height: 1;
+}
+
+.table-email .email-summary span.label {
+  padding: 1px 5px 2px;
+}
+
+.table-email .ckbox {
+  line-height: 0px;
+  margin-left: 8px;
+}
+
+.table-email a {
+  color: #555;
+  font-weight: normal;
+}
+
+.table-email a:hover,
+.table-email .media-heading a:focus {
+  text-decoration: none;
+}
+
+.table-email time {
+  font-size: 13px;
+  margin-right: 10px;
+}
+
+.inbox .mail {
+  display: none;
 }
 

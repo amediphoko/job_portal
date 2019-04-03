@@ -83,13 +83,14 @@ class RegisterController extends Controller
             $fileNameToUpload = $filename.'_'.time().'.'.$extension;
             ///Upload Image
             $path = $request->file('pro_pic')->storeAs('public/profile_pictures', $fileNameToUpload);
-        }if ($request->hasfile('documents')) {
+        }
+        if ($request->hasfile('documents')) {
             foreach($request->file('documents') as $file){
                 $name = $file->getClientOriginalName();
                 $filename = pathinfo($name, PATHINFO_FILENAME);
                 $extension = $file->getClientOriginalExtension();
                 $fileToUpload = $filename.'_'.time().'.'.$extension;
-                $file->storeAs('public/documents', $fileToUpload);
+                $path = $file->storeAs('public/documents', $fileToUpload);
                 $files[] = $fileToUpload;
             }
         } else {
