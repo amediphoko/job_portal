@@ -46,7 +46,7 @@
             <!-- Footer -->
             <div class="modal-footer">
                 <a href="review/{{$application->id}}" class="btn btn-default">Done</a>
-                <a href="" type="button" class="btn btn-primary">Shortlist</a>
+                <a href="shortlist/{{$application->id}}" type="button" class="btn btn-primary" onclick="return confirm('You are adding'.$application->user->name.'to the shortlist, confirm')">Shortlist</a>
             </div>
         </div>
     </div>

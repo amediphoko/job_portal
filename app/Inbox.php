@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Filters\InboxFilter;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Inbox extends Model
 {
@@ -19,5 +21,10 @@ class Inbox extends Model
 
     public function employer(){
         return $this->belongsTo('App\Employer');
+    }
+
+    public function scopeFilter(Builder $builder, $request)
+    {
+        return (new InboxFilter($request))->filter($builder);
     }
 }

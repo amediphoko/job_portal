@@ -14,15 +14,25 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
+    @if (Auth::guard('admin')->check())
         @include('inc.navbar')
-        <div class="container" style="margin-top:3.6em">
+        <div id="app" style="position:relative; top:3.5em">
+            <div class="col-md-2" style="margin:0; padding:0">
+                @include('inc.sidebar')
+            </div>
             @include('inc.messages')
-            @yield('content')
+            @yield('content')   
         </div>
-        @include('inc.footer')
-    </div>
-
+    @else
+        <div id="app">
+            @include('inc.navbar')
+            <div class="container" style="margin-top:3.6em">
+                @include('inc.messages')
+                @yield('content')
+            </div>
+            @include('inc.footer')
+        </div>
+    @endif
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
@@ -42,6 +52,18 @@
                 $("#ck_"+$(this).attr('id')).prop('checked', !$("#ck_"+$(this).attr('id')).prop('checked'));
                 window.location = $(this).data("href");
             });
+        });
+    </script>
+    <script>
+        jQuery(document).ready(function() {
+            var path = window.location.pathname;
+            if(path.charAt(path.length-1) == "/") {
+                path = path.substring(0, path.length - 1);
+            }
+            if (path.charAt(0) != "/") {
+                path = "/" + path;
+            }
+            $("#accordion1 a[href*='"+path+"']").addClass("active");
         });
     </script>
 </body>

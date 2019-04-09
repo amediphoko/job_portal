@@ -11386,6 +11386,72 @@ button.close {
   }
 }
 
+/**
+*Sidebar Style
+**/
+
+#sidebar {
+  min-height: 95vh;
+  -webkit-transition: margin .25s ease-out;
+  transition: margin .25s ease-out;
+}
+
+#sidebar .nav-link {
+  color: #fff;
+  font-weight: 100;
+  font-size: 15px;
+}
+
+#sidebar .nav-link:hover {
+  background-color: #c0e2dd;
+  color: black;
+}
+
+#sidebar .nav-link.active {
+  background-color: #6d8a85;
+  color: black;
+}
+
+#sidebar .nav-link span.active-span {
+  display: none;
+}
+
+#sidebar .nav-link.active span.active-span {
+  display: block;
+  float: right;
+  padding-top: 1.2px;
+  margin-right: -20px;
+  font-size: 1.3em;
+  color: #f5f8fa;
+}
+
+#sidebar > .sidebar-profile,
+#sidebar > .sidebar-profile > .sidebar-profile-info {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  color: #fff;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+#sidebar .separator {
+  background: #292e33;
+  border: #292e33;
+  padding: .6em;
+  color: #343a40;
+  font-weight: 600;
+}
+
+#sidebar .separator:hover {
+  text-decoration: none;
+  color: #343a40;
+  background: #292e33;
+}
+
+.bg-dark {
+  background-color: #343a40;
+}
+
 .media-body small,
 .list-group-item small {
   margin-right: 10em;
@@ -11679,5 +11745,113 @@ input[type="radio"][name="tabs"]:first-of-type:checked ~ .slide {
 
 .inbox .mail {
   display: none;
+}
+
+/* Cards */
+
+.card-mini,
+.card-panel {
+  background-color: #ffffff;
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05), 0 3px 1px -2px rgba(0, 0, 0, 0.08), 0 1px 20px 0 rgba(0, 0, 0, 0.08);
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05), 0 3px 1px -2px rgba(0, 0, 0, 0.08), 0 1px 20px 0 rgba(0, 0, 0, 0.08);
+  position: relative;
+  padding: 1em;
+  padding-left: 2em;
+  margin-top: 1em;
+  border-top: 4px solid #c1c9d1;
+}
+
+.stats-card {
+  background-color: #ffffff;
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05), 0 3px 1px -2px rgba(0, 0, 0, 0.08), 0 1px 20px 0 rgba(0, 0, 0, 0.08);
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05), 0 3px 1px -2px rgba(0, 0, 0, 0.08), 0 1px 20px 0 rgba(0, 0, 0, 0.08);
+  padding: 1.6em;
+  margin: 0px;
+  border-right: 20px solid #f5f8fa;
+}
+
+.card-mini.card-transparent {
+  background: transparent;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.card-mini > .card-content > .card-title,
+.card-panel > .card-content > .card-title,
+.card-mini > .card-reveal > .card-title {
+  line-height: 24px;
+  font-size: 25px;
+  font-weight: bold;
+  text-transform: capitalize;
+  display: block;
+  margin-bottom: 20px;
+  padding: 1em;
+  border-bottom: 1px #dbdbdb solid;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.card-mini .card-image .card-title {
+  color: #fff;
+}
+
+.card-mini.white-text .card-title {
+  color: #fff;
+}
+
+.card-mini .card-title i {
+  font-size: 22px;
+  line-height: 24px;
+  vertical-align: top;
+  margin-right: 10px;
+}
+
+.card-mini .card-options .badge {
+  right: 15px;
+  top: 20px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  text-shadow: none;
+  min-width: auto;
+}
+
+.card-mini button:hover {
+  text-decoration: none;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.stats-card .card-content span {
+  font-size: 2.9em;
+  padding: 0;
+}
+
+.stats-card .card-content h4 {
+  margin: 0px;
+}
+
+.card-mini .panel {
+  border-radius: 0;
+}
+
+.card-mini .panel .panel-heading {
+  border-radius: 0;
+  border: 0;
+  background: #66809b;
+}
+
+.card-mini .panel .panel-heading .panel-title {
+  font-weight: 600;
+}
+
+.card-mini .panel .panel-body {
+  padding: 0;
+}
+
+.card-mini .panel .list-group-flush .list-group-item {
+  border-radius: 0;
+  border: none;
+  border-top: 1px solid #d3d3d3;
 }
 

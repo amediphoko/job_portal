@@ -58,8 +58,8 @@ class NewApplication extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'employer_id' => $this->user->id,
-            'employer_name' => $this->user->name,
+            'user_id' => $this->user->id,
+            'user_name' => $this->user->name,
             'job_id' =>  $this->job->id,
             'job_name' => $this->job->title
         ];

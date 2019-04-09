@@ -30,7 +30,7 @@ class EmployerRegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/employer';
+    protected $redirectTo = '/employer/login';
 
     /**
      * Create a new controller instance.
@@ -113,10 +113,10 @@ class EmployerRegisterController extends Controller
 
         event(new Registered($employer = $this->create($request->all())));
 
-        Auth::guard('employer')->login($employer);
+        //Auth::guard('employer')->login($employer);
 
         return $this->registered($request, $employer)
-                        ?: redirect(route('employer'));
+                        ?: redirect(route('employer.login'));
     }
 
     /**

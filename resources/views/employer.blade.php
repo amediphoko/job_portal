@@ -6,7 +6,7 @@
         <label>Filter by </label>
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> 
-                Title <span class="caret"></span>
+                <i class="fa fa-filter"></i> Title <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
             @if(count($titles) > 0)
@@ -92,7 +92,7 @@
                                         {!!Form::open(['action' => ['JobsController@destroy', $job->id], 'method' => 'POST', 'class' => 'pull-right'])!!}
                                             {{Form::hidden('_method', 'DELETE')}}
                                             <i style="color:red" class="fa fa-trash">
-                                            {{Form::submit(' Delete', ['style' => 'background-color:transparent; border:none; color:red; font-style:sans-serif'])}}
+                                            {{Form::submit(' Delete', ['style' => 'background-color:transparent; border:none; color:red; font-style:sans-serif', 'onclick' => 'return confirm(\'Are you sure you want to delete?\')'])}}
                                         </i>
                                         {!!Form::close()!!}
                                     </td>
@@ -121,6 +121,7 @@
                                 <th>Applicant</th>
                                 <th>Qualification</th>
                                 <th>Documents</th>
+                                <th>Added at</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -137,12 +138,13 @@
                                                 @foreach (json_decode($application->documents) as $document)
                                                     <a href="/download/{{$document}}"><i style="color:red" class="fa fa-file-pdf-o"></i> {{ $document }}</a><br/>
                                                 @endforeach
-                                            </td>
+                                        </td>
+                                        <td>{{$application->created_at->toDateString()}}</td>
                                         <td>
                                             @include('inc.review')
                                         </td>
                                         <td>
-                                            <a href=""><i class="fa fa-list-alt"></i> shortlist</a>
+                                            <a href="shortlist/{{$application->id}}" onclick="return confirm('You are adding'.$application->user->name.'to the shortlist, confirm')"><i class="fa fa-list-alt"></i> shortlist</a>
                                         </td>
                                     </tr>
                                 @endif
@@ -171,6 +173,7 @@
                                 <th>Applicant</th>
                                 <th>Qualification</th>
                                 <th>Documents</th>
+                                <th>Added at</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -188,11 +191,12 @@
                                                 <a href="/download/{{$document}}"><i style="color:red" class="fa fa-file-pdf-o"></i> {{ $document }}</a><br/>
                                             @endforeach
                                         </td>
+                                        <td>{{$application->created_at->toDateString()}}</td>
                                         <td>
                                             <p><i class="fa fa-pencil-square-o"></i> reviewed</p>
                                         </td>
                                         <td>
-                                            <a href=""><i class="fa fa-list-alt"></i> shortlist</a>
+                                            <a href="shortlist/{{$application->id}}" onclick="return confirm('You are adding {{$application->user->name}} to the shortlist, confirm')"><i class="fa fa-list-alt"></i> shortlist</a>
                                         </td>
                                     </tr>
                                 @endif
@@ -206,9 +210,54 @@
         </div>
         <input type="radio" name="tabs" id="shortlist-tab">
         <div class="tab-label-content" id="shortlist-content">
-            <label for="shortlist-tab"><i class="fa fa-list-alt"></i> Shortlist</label>
+            <label for="shortlist-tab"><i class="fa fa-pencil-square-o"></i> Shortlisted
+                <span class="badge pull-right">
+                    {{count($applications->where('status', '=', 'shortlisted'))}}
+                </span>
+            </label>
             <div class="tab-content">
-                TAB 4 - Shortlist
+                @if (count($applications->where('status', '=', 'shortlisted')) > 0)
+                    <table class="table">
+                        <thead style="background-color:#faf8f8cc">
+                            <tr>
+                                <th>ID</th>
+                                <th>Job Name</th>
+                                <th>Applicant</th>
+                                <th>Qualification</th>
+                                <th>Documents</th>
+                                <th>Added at</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($applications as $application)
+                                @if ($application->status == 'shortlisted')
+                                    <tr>
+                                        <td>{{$application->id}}</td>
+                                        <td>{{$application->job->title}}</td>
+                                        <td>{{$application->user->name.' '.$application->user->last_name}}</td>
+                                        <td>{{$application->user->qualification}}</td>
+                                        <td>
+                                            @foreach (json_decode($application->documents) as $document)
+                                                <a href="/download/{{$document}}"><i style="color:red" class="fa fa-file-pdf-o"></i> {{ $document }}</a><br/>
+                                            @endforeach
+                                        </td>
+                                        <td>{{$application->created_at->toDateString()}}</td>
+                                        <td>
+                                            <p><i class="fa fa-pencil-square-o"></i> reviewed</p>
+                                        </td>
+                                        <td>
+                                            <a class=""><i class="fa fa-inbox"></i> email</a>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach  
+                        </tbody>
+                    </table>
+                @else
+                    <p>No Shortlisted Applications.</p>
+                @endif
             </div>
         </div>
         <div class="slide"></div>

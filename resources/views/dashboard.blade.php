@@ -68,7 +68,7 @@
                                             {!!Form::open(['action' => ['ApplicationsController@destroy', $application->id], 'method' => 'POST'])!!}
                                                 {{Form::hidden('_method', 'DELETE')}}
                                                 <i style="color:red" class="fa fa-trash">
-                                                {{Form::submit(' Delete', ['style' => 'background-color:transparent; border:none; color:red; font-style:sans-serif', 'data-toggle' => 'tooltip', 'data-original-title' => 'Delete Application'])}}
+                                                {{Form::submit(' Delete', ['style' => 'background-color:transparent; border:none; color:red; font-style:sans-serif', 'data-toggle' => 'tooltip', 'data-original-title' => 'Delete Application', 'onclick' => 'return confirm(\'Are you sure you want to delete?\')'])}}
                                                 </i>
                                             {!!Form::close()!!}
                                         </td>
@@ -97,27 +97,29 @@
                                             <div class="col-lg-1 col-md-2 col-3">
                                                 <div class="btn-group">
                                                     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-                                                        All <span class="caret"></span>
+                                                       <i class="fa fa-filter"></i> Filter <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu">
-                                                        <li><a href="#">None</a></li>
-                                                        <li><a href="#">Read</a></li>
-                                                        <li><a href="#">Unread</a></li>
+                                                        <li><a href="/dashboard">All</a></li>
+                                                        <li><a href="/dashboard?status=read">Read</a></li>
+                                                        <li><a href="/dashboard?status=unread">Unread</a></li>
                                                     </ul>
                                                 </div>                               
                                             </div>
-                                            <div class="col-lg-1 col-md-2 col-3">
+                                            <div style="margin-left:20px" class="col-lg-1 col-md-2 col-3">
                                                 <button class="btn btn-default btn-sm tooltips" type="button" data-toggle="tooltip" data-container="body" title="" data-original-title="Delete">
                                                     <i class="fa fa-trash-o"></i>
                                                 </button>
                                             </div>
-                                            <div class="col-lg-5 col-md-4 col-6">
-                                                <div class="input-group search">
-                                                    <input type="text" class="form-control" placeholder="Search...">
-                                                    <span class="input-group-addon">
+                                            <div class="col-lg-5 col-md-4 col-6">   
+                                                <form action="{{url('inbox_search')}}" method="GET" class="form-inline">
+                                                    <div class="form-group">
+                                                        <input type="text" name="searchterm" class="form-control" placeholder="Search...">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-default">
                                                         <i class="fa fa-search"></i>
-                                                    </span>
-                                                </div>
+                                                    </button>
+                                                </form> 
                                             </div>                                                     
                                         </div>
                                     </div>
