@@ -53,7 +53,7 @@ class RegisterController extends Controller
             'dob' => 'required|date',
             'gender' => 'required|string|max:6',
             'email' => 'required|string|email|max:255|unique:users',
-            'pro_pic' => 'image|nullable|max:1999',
+            'propic' => 'image|nullable|max:1999',
             'contacts' => 'required|integer',
             'residence' => 'required|string|max:191',
             'qualification' => 'required|string|max:191',
@@ -72,17 +72,17 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $request = app('request');
-        if ($request->hasfile('pro_pic')) {
+        if ($request->hasfile('propic')) {
             //Get filename with the extension
-            $filenamewithExt = $request->file('pro_pic')->getClientOriginalName();
+            $filenamewithExt = $request->file('propic')->getClientOriginalName();
             //Get just filename
             $filename = pathinfo($filenamewithExt, PATHINFO_FILENAME);
             //Get just the ext
-            $extension = $request->file('pro_pic')->getClientOriginalExtension();
+            $extension = $request->file('propic')->getClientOriginalExtension();
             //Filename to upload
             $fileNameToUpload = $filename.'_'.time().'.'.$extension;
             ///Upload Image
-            $path = $request->file('pro_pic')->storeAs('public/profile_pictures', $fileNameToUpload);
+            $path = $request->file('propic')->storeAs('public/profile_pictures', $fileNameToUpload);
         }
         if ($request->hasfile('documents')) {
             foreach($request->file('documents') as $file){

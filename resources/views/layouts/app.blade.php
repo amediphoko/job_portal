@@ -12,6 +12,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
 </head>
 <body>
     @if (Auth::guard('admin')->check())
@@ -26,7 +28,7 @@
     @else
         <div id="app">
             @include('inc.navbar')
-            <div class="container" style="margin-top:3.6em">
+            <div class="container-fluid" style="margin-top:3.6em">
                 @include('inc.messages')
                 @yield('content')
             </div>
@@ -49,7 +51,7 @@
             $(".clickable-row").click(function(e) {
                 if((e.target).tagName == 'INPUT') return true;
                 e.preventDefault();
-                $("#ck_"+$(this).attr('id')).prop('checked', !$("#ck_"+$(this).attr('id')).prop('checked'));
+                //$("#ck_"+$(this).attr('id')).prop('checked', !$("#ck_"+$(this).attr('id')).prop('checked'));
                 window.location = $(this).data("href");
             });
         });
@@ -66,5 +68,45 @@
             $("#accordion1 a[href*='"+path+"']").addClass("active");
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $("#pro_pic + label").hover(function() {
+                $("#pro_pic + label i").css("display", "inline-block");
+            }, function() {
+                $("#pro_pic + label i").css("display", "none");
+            });
+
+            $("#all").click(function(){
+                if($(this).is(":checked", true))
+                {
+                    $(".mail-checkbox").prop("checked", true);
+                }
+                else
+                {
+                    $(".mail-checkbox").prop("checked", false);
+                }     
+            });
+        });
+
+       document.getElementById("pro_pic").onchange = function() {
+           var reader = new FileReader();
+
+           reader.onload = function(e) {
+               document.getElementById("output").style.background = "url('"+e.target.result+"')";
+               document.getElementById("output").style.backgroundRepeat = "no-repeat";
+               document.getElementById("output").style.backgroundSize = "cover";
+               $("#upload").css("display", "inline-block");
+           };
+           reader.readAsDataURL(this.files[0]);
+       };
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#dt').DataTable();
+            $('#applications').DataTable();
+        })
+    </script>
+    <script src="{{ asset('js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
 </body>
 </html>

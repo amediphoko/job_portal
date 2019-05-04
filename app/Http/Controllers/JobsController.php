@@ -10,7 +10,7 @@ class JobsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:employer', ['except' => ['index', 'show', 'catFilter']]);
+        $this->middleware('auth:employer', ['except' => ['index', 'show', 'catFilter', 'search']]);
     }
     /**
      * Display a listing of the resource.
@@ -22,17 +22,56 @@ class JobsController extends Controller
         //query results for all job entries
         $jobs_all = Job::all()->where('closing_date', '>=', Carbon::now());
         //filters job entries and return query
-        $jobs = Job::filter($request)->paginate(5);
+        $jobs = Job::filter($request)->orderBy('created_at', 'DESC')->paginate(5);
         //query results for unique job category entries
         $categories = Job::select('category')->distinct()->pluck('category');
         //query results for unique job type entries
         $types = Job::select('type')->distinct()->pluck('type');
 
+        /**search query entry */
+        $title = $request->title;
+        $location = $request->location;
+
         return view('jobs.index')->with([   'jobs' => $jobs,
                                             'categories' => $categories,
                                             'jobs_all' => $jobs_all,
-                                            'types' => $types]);
+                                            'types' => $types,
+                                            'title' => $title,
+                                            'location' => $location]);
 
+    }
+
+    public function search(Request $request) {
+        //query results for all job entries
+        $jobs_all = Job::all()->where('closing_date', '>=', Carbon::now());
+        //query results for unique job category entries
+        $categories = Job::select('category')->distinct()->pluck('category');
+        //query results for unique job type entries
+        $types = Job::select('type')->distinct()->pluck('type');
+
+        /**search function */
+        $title = $request->title;
+        $location = $request->location;
+
+
+        //query jobs resource for search results
+        if ($title != null and $location != null) {
+            $data = Job::where('title', 'like', '%' . $title . '%')
+                            ->orWhere('location', 'like', '%' . $location . '%')->paginate(5);
+        } elseif ($title == null and $location != null) {
+            $data = Job::where('location', 'like' , '%' . $location . '%')->paginate(5);
+        } elseif ($title != null and $location == null) {
+            $data = Job::where('title', 'like' , '%' . $title . '%')->paginate(5);
+        }else{
+            $data = null;
+        }
+        
+        return view('jobs.index')->with(['jobs' => $data,
+                                        'categories' => $categories,
+                                        'jobs_all' => $jobs_all,
+                                        'types' => $types,
+                                        'title' => $title,
+                                        'location' => $location]);
     }
 
     /**

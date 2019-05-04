@@ -22,7 +22,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="">
+            <a class="nav-link" href="/manage_posts">
                 <span class="glyphicon glyphicon-comment"></span> Manage Posts
                 <span class="glyphicon glyphicon-triangle-left active-span"></span>
             </a>

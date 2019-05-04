@@ -31,19 +31,23 @@ class EmployerLoginController extends Controller
         ]);
         
         $status = Employer::select('status')->where('email', '=', $request->email)->pluck('status');
-      
-        if($status[0] == 'active') {
-            //Attempt to log the user in to the system
-            if (Auth::guard('employer')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-                //if successful, redirect user to their intended route
-                return redirect()->intended(route('employer.dashboard'));
-            }
+        
+        if (count($status) > 0) {
+            if($status[0] == 'active') {
+                //Attempt to log the user in to the system
+                if (Auth::guard('employer')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+                    //if successful, redirect user to their intended route
+                    return redirect()->intended(route('employer.dashboard'));
+                }
 
-            //if unsuccessful, then redirect user back to the login with the form data
-            return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors($errors);
+                //if unsuccessful, then redirect user back to the login with the form data
+                return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors($errors);
+            }
+            
+            return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors($message);
         }
 
-        return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors($message);;
+        return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors($errors);
     }
 
     public function logout()

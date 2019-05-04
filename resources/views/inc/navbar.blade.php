@@ -29,9 +29,8 @@
                 &nbsp;
                 @if (Auth::guard('web')->check() or Auth::guard('employer')->check())
                     <li><a href="/">Home</a></li>
-                    <li><a href="/search">Search</a></li>
                     <li><a href="/jobs">Jobs</a></li>
-                    <li><a href="/forum">News Forum</a></li>
+                    <li><a href="/posts">News Forum</a></li>
                 @endif
             </ul>
 
@@ -98,9 +97,8 @@
                     </li>
                 @else
                     <li><a href="/">Home</a></li>
-                    <li><a href="/search">Search</a></li>
                     <li><a href="/jobs">Jobs</a></li>
-                    <li><a href="/forum">News Forum</a></li>
+                    <li><a href="/posts">News Forum</a></li>
                     <li><a href="{{ route('login') }}">Job Seeker</a></li>
                     <li><a href="{{ route('employer.login') }}">Employer</a></li>
                     <li><a href="{{ route('admin.login') }}">Admin</a></li>

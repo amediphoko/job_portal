@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Notifications\NewApplication;
 use  App\Job;
 use App\Application;
@@ -42,7 +43,7 @@ class ApplicationsController extends Controller
         $documents = json_decode(auth()->user()->documents);
 
         foreach ($documents as $document) {
-           // $path = $document->storeAs('public/applications/user'.auth()->user()->id, $document);
+            Storage::copy('public/documents/'.$document, 'public/applications/user'.auth()->user()->id.'/'.$document);
             $files[] = $document;
         }
 
@@ -73,7 +74,7 @@ class ApplicationsController extends Controller
         $application = Application::find($id);
         $application->status = 'reviewed';
         $application->save();
-        return redirect('/employer')->with('sucess', 'Review Done.');
+        return redirect('employer.applications')->with('sucess', 'Review Done.');
     }
 
      /**
@@ -121,6 +122,12 @@ class ApplicationsController extends Controller
         $application = Application::find($id);
         if(auth()->user()->id !== $application->user_id) {
             return redirect('/dashboard')->with('error', 'UnAuthorized access.');
+        }
+
+        if($application->documents != NULL) {
+            foreach($application->documents as $document) {
+                Storage::delete('public/applications/user/'.auth()->user()->id.'/'.$document);
+            }
         }
         $application->delete();
         return redirect('/dashboard')->with('success', 'Application Deleted.');

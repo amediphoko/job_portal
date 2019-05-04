@@ -1,35 +1,34 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
         <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading" style="text-align:center">Job Summary</div>
+            <div class="panel panel-default" id="jobSummary">
+                <div class="panel-heading" style="text-align:center;font-weight:600;font-size:1.3em">Job Summary</div>
                 <div class="panel-body" style="background-color:aliceblue">
                     <ul style="list-style-type:none">
                         <li>
-                            <h5>Posted on</h5> {{$job->created_at}}
+                            <h5><i class="fa fa-calendar"></i> Posted on</h5> {{$job->created_at->toDateString()}}
                         </li>
                         <li>
                             <h5><i class="fa fa-suitcase"></i> Category</h5> {{$job->category}}
                         </li>
                         <li>
-                            <h5>Job Type</h5> {{$job->type}}
+                            <h5><i class="fa fa-tag"></i> Job Type</h5> {{$job->type}}
                         </li>
                         <li>
-                            <h5>Years Experience</h5> > {{$job->experience}}
+                            <h5><i class="fa fa-sliders"></i> Years Experience</h5> > {{$job->experience}}
                         </li>
                         <li>
-                            <h5>Qualifications</h5> {{$job->qualification}}
+                            <h5><i class="fa fa-graduation-cap"></i> Qualifications</h5> {{$job->qualification}}
                         </li>
                         <li>
-                            <h5>Salary</h5>  > {{$job->salary}}
+                            <h5><i class="fa fa-money"></i> Salary</h5> {{$job->salary}}
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="col-md-8" id="jobInfo">
+        <div class="col-md-9" id="jobInfo">
             <a href="/jobs/" class="btn btn-default"><i class="fa fa-chevron-left"></i>
                 View All Jobs</a>
             <h2>{{$job->title}}</h2>
@@ -64,5 +63,4 @@
                 @endif
             @endif
         </div>
-    </div>
 @endsection

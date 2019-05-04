@@ -130,15 +130,15 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('pro_pic') ? ' has-error' : '' }}">
-                            <label for="pro_pic" class="col-md-4 control-label">Profile Picture</label>
+                        <div class="form-group{{ $errors->has('propic') ? ' has-error' : '' }}">
+                            <label for="propic" class="col-md-4 control-label">Profile Picture</label>
 
                             <div class="col-md-6">
-                                <input id="pro_pic" type="file" name="pro_pic" autofocus>
+                                <input id="propic" type="file" name="propic" required autofocus>
 
-                                @if ($errors->has('pro_pic'))
+                                @if ($errors->has('propic'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('pro_pic') }}</strong>
+                                        <strong>{{ $errors->first('propic') }}</strong>
                                     </span>
                                 @endif
                             </div>

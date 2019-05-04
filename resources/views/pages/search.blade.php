@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row" style="padding-top:.5em">
-        <div class="col-md-12" style="background-image:url({{asset('img/search.jpg')}}); background-repeat:no-repeat;
-        background-size:cover; height:11em">
-            <h1 style="text-align:center; font-weight:100; font-size:4em; color:#ececec">Search</h1>
-            <p style="text-align:center; font-weight:100; font-size:20px; color:#fff">Begin search for your desired job.</p>
+    <div class="row container-fluid">
+        <div class="col-md-12 search-pane">
+            <h1 style="text-align:center; font-weight:100; font-size:4em; color:#ececec">
+                <i style="color:gray" class="fa fa-search"></i> Search</h1>
+            <p style="text-align:center; font-weight:100; font-size:20px; color:#fff">Begin search for your desired job now.</p>
         </div>
-        <div class="col-md-12" style="padding-top:2em; padding-bottom:1em; background-color:#fff; border-top:10px solid aliceblue">
+        <div class="col-md-12 jobsearch" style="padding-top:2em; padding-bottom:1em; background-color:#fff; margin-top:10px">
             <form action="{{url('search')}}" class="col-md-offset-2" method="GET" role="search" id="search">
                 {{ csrf_field() }}
                 <div class="form-group">
@@ -26,12 +26,9 @@
                 class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span> Search</button>
             </form>
         </div>
-        <div class="col-md-12" style="padding:1em; background-color:#fff;  border-top:4px solid #ececec">
+        <div class="col-md-12 jobs" style="padding:1em; background-color:#fff;margin-top:10px">
             @if(count($data) > 0)
-                <div class="col-md-6" style="padding-top:1em">
-                    <p>Showing <b>{{count($data->where('closing_date', '>=', Carbon\Carbon::now()))}}</b> search results for <b>Job Title: {{$title}} or Location: {{$location}}</b></p>
-                </div>
-                <div class="col-md-2 col-md-offset-4">
+                <div class="col-md-2">
                     <label>Sort by </label>
                     <div class="btn-group">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> 

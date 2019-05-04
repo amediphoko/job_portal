@@ -20,7 +20,7 @@
         <div class="row stats-card col-md-4">
             <div class="card-content">
                 <span style="color:#6134a8" class="fa fa-comment-o col-md-2"></span>
-                <h4 class="col-md-9">Posts Requests <br> <b>0<b></h4>
+                <h4 class="col-md-9">Posts Requests <br> <b>{{count($posts)}}<b></h4>
             </div>
         </div>
         <div class="row stats-card col-md-4">

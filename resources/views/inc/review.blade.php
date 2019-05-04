@@ -14,7 +14,7 @@
             </div>
             <!-- Body -->
             <div class="modal-body">
-                <img style="width:5em" src="storage/profile_pictures/{{$application->user->pro_pic}}"/>
+                <img style="width:5em;height:5em" src="{{asset('storage/profile_pictures/'.$application->user->pro_pic)}}"/>
                 <h5 style="border-bottom: 1px #cfcbcbcc solid; text-transform:uppercase">Applicant Bio</h5>
                 <ul style="list-style:none">
                     <li><i class="fa fa-user"></i> <b>Name:</b> {{$application->user->name.' '.$application->user->last_name}}</li>
