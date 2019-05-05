@@ -28,7 +28,15 @@
                                     <a href="/download/{{$document}}"><i style="color:red" class="fa fa-file-pdf-o"></i> {{ $document }}</a><br/>
                                 @endforeach
                             </td>
-                            <td><i class="fa fa-exclamation-circle"></i> {{ $application->status }}</td>
+                            <td>
+                                @if ($application->status == 'pending')
+                                    <i class="fa fa-exclamation-circle"></i> {{ $application->status }}
+                                @elseif ($application->status == 'reviewed')
+                                    <i class="fa fa-pencil"></i> {{ $application->status }}
+                                @elseif ($application->status == 'shortlisted')
+                                    <i class="fa fa-star"></i> {{ $application->status }}
+                                @endif
+                            </td>
                             <td>
                                 {!!Form::open(['action' => ['ApplicationsController@destroy', $application->id], 'method' => 'POST'])!!}
                                     {{Form::hidden('_method', 'DELETE')}}

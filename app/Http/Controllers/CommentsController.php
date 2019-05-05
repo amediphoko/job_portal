@@ -95,6 +95,14 @@ class CommentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $comment = Comment::find($id);
+        //check for correct user
+        if(auth()->user()->id !== $comment->user_id) {
+            return back()->with('error', 'UnAuthorised Page.');
+        }
+        
+        $comment->delete();
+      
+        return back()->with('success', 'Comment Deleted');
     }
 }

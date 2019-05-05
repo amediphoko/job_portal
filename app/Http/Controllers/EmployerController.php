@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use App\Employer;
 use App\Job;
 use App\Application;
+
 
 class EmployerController extends Controller
 {
@@ -51,11 +53,11 @@ class EmployerController extends Controller
     {
         $employer_id = auth('employer')->user()->id;
 
-        $jobs = Job::where('employer_id', '=', $employer_id)->get();
-
         $job_ids = Job::select('id')->where('employer_id', '=', $employer_id)->get();
 
         $status = '';
+
+        $jobs = [];
 
         if ($status_id == 1) {
             $status = 'pending';
@@ -68,25 +70,35 @@ class EmployerController extends Controller
             $applications = Application::whereIn('job_id', $job_ids)->where('status', '=', 'shortlisted')->get();
         }
 
+        if (count($applications) > 0) {
+            foreach ($applications as $application) {
+                $job_id[] = $application->job_id;
+            }
+
+            $jobs = Job::whereIn('id', $job_id)->distinct()->get();
+        }
+
         return view('employer.applications')->with(['jobs'=> $jobs, 'applications'=> $applications, 'status' => $status]);
     }
 
     public function pending($job_id)
     {
+        $status = 'pending';
         //query result for applications on a specific job
         $job_applications = Application::where('job_id', $job_id)
                                         ->where('status', '=', 'pending')->orderBy('created_at', 'DESC')->get();
 
-        return view('employer.job_applications')->with('job_applications', $job_applications);        
+        return view('employer.job_applications')->with(['job_applications' => $job_applications, 'status' => $status]);        
     }
 
     public function reviewed($job_id)
     {
+        $status = 'reviewed';
         //query result for applications on a specific job
         $job_applications = Application::where('job_id', $job_id)
                                         ->where('status', '=', 'reviewed')->orderBy('created_at', 'DESC')->get();
 
-        return view('employer.job_applications')->with('job_applications', $job_applications);        
+        return view('employer.job_applications')->with(['job_applications' => $job_applications, 'status' => $status]);        
     }
 
     public function shortlisted($job_id)
@@ -118,7 +130,7 @@ class EmployerController extends Controller
             'message' => 'required',
         ]);
 
-        $emails = $request->input('emails');
+        $emails = json_decode($request->input('emails'));
         $emp_email = auth('employer')->user()->email;
         $emp_name = auth('employer')->user()->name;
 
@@ -127,7 +139,7 @@ class EmployerController extends Controller
             'sender' => auth('employer')->user()->name
         );
         
-        Mail::send('employer.response', $data, 
+        Mail::send('employer.response', ['data' => $data], 
             function($message) use ($request, $emails, $emp_email, $emp_name) {
                 $message->from($emp_email, $emp_name);
                 $message->to($emails);

@@ -31,22 +31,31 @@
             <button type="button" class="btn btn-default col-md-12" style="border-radius:0" data-toggle="collapse" data-target="#demo">
                 <span style="font-size:1.4em" class="fa fa-comments"></span> Comments <span style="background:cadetblue" class="badge">{{count($post->comments)}}</span>
             </button>
-            @foreach ($post->comments as $comment)
-            <br>
-            <div id="demo" class="collapse out" style="padding-top:3em">
+            <div id="demo" class="collapse in" style="padding-top:3em">
                 <div class="row col-md-offset-1">
-                    <div class="col-sm-2 text-center">
-                        <img src="/storage/profile_pictures/{{$comment->user->pro_pic}}" class="img-circle" height="65" width="65" alt="Avatar">
-                    </div>
-                    <div class="col-sm-10">
-                        <h4>{{$comment->user->name}} {{$comment->user->last_name}} <small>{{$comment->created_at}}</small></h4>
-                        <p>{{$comment->comment}}</p>
-                        <br>
-                    </div>
-                    
+                    <br>
+                    @foreach ($post->comments as $comment)
+                        @if (Auth::guard('web')->check())
+                            @if (Auth::user()->id == $comment->user_id)
+                                {!!Form::open(['action' => ['CommentsController@destroy', $comment->id], 'method' => 'POST', 'class' => 'pull-right'])!!}
+                                    {{Form::hidden('_method', 'DELETE')}}
+                                    <button type="submit" class="pull-right" style="background-color:transparent;border:none" data-toggle="tooltip" data-original-title="Delete Comment" onclick="return confirm('Are you sure you want to delete?')">
+                                        <i style="color:red;" class="fa fa-trash-o"></i>
+                                    </button>
+                                {!!Form::close()!!}
+                            @endif
+                        @endif        
+                        <div class="col-sm-2 text-center">
+                            <img src="/storage/profile_pictures/{{$comment->user->pro_pic}}" class="img-circle" height="65" width="65" alt="Avatar">
+                        </div>
+                        <div class="col-sm-10">
+                            <h4>{{$comment->user->name}} {{$comment->user->last_name}} <small>{{$comment->created_at}}</small></h4>
+                            <p>{{$comment->comment}}</p>
+                            <br>
+                        </div>
+                    @endforeach
                 </div>
-            </div>
-            @endforeach
+            </div> 
         @endif          
     </div>
     <div class="col-md-4" style="padding-top:2em">

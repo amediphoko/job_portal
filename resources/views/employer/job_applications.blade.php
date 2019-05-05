@@ -37,7 +37,7 @@
                                     @include('inc.review')
                                 </td>
                                 <td>
-                                    <a href="shortlist/{{$application->id}}" onclick="return confirm('You are adding'.$application->user->name.'to the shortlist, confirm')"><i class="fa fa-list-alt"></i> shortlist</a>
+                                    <a href="/shortlist/{{$application->id}}" onclick="return confirm('You are adding'.$application->user->name.'to the shortlist, confirm')"><i class="fa fa-list-alt"></i> shortlist</a>
                                 </td>
                             </tr> 
                         @elseif ($application->status == 'reviewed')
@@ -55,7 +55,7 @@
                                     <p><i class="fa fa-pencil-square-o"></i> reviewed</p>
                                 </td>
                                 <td>
-                                    <a href="shortlist/{{$application->id}}" onclick="return confirm('You are adding {{$application->user->name}} to the shortlist, confirm')"><i class="fa fa-list-alt"></i> shortlist</a>
+                                    <a href="/shortlist/{{$application->id}}" onclick="return confirm('You are adding {{$application->user->name}} to the shortlist, confirm')"><i class="fa fa-list-alt"></i> shortlist</a>
                                 </td>
                             </tr>
                         @elseif ($application->status == 'shortlisted')

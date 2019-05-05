@@ -6,14 +6,12 @@
         <ul class="list-group list-group-flush">
             @if(count($applications) > 0)
                 @foreach ($jobs as $job)
-                    @if(count($job->applications) > 0)
-                        <a href="/employer/applications/{{$status}}/{{$job->id}}" class="list-group-item"  style="border-radius:0">
-                            <h4>
-                                {{$job->title}}
-                            </h4>
-                            <p>{{count($job->applications)}} Applications</p>
-                        </a>
-                    @endif
+                    <a href="/employer/applications/{{$status}}/{{$job->id}}" class="list-group-item"  style="border-radius:0">
+                        <h4>
+                            {{$job->title}}
+                        </h4>
+                        <p>{{count($job->applications)}} Applications</p>
+                    </a>
                 @endforeach
             @else
                 <p style="text-align:center;padding:20px;">No {{$status}} applications.</p>

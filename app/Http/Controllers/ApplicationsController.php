@@ -43,7 +43,7 @@ class ApplicationsController extends Controller
         $documents = json_decode(auth()->user()->documents);
 
         foreach ($documents as $document) {
-            Storage::copy('public/documents/'.$document, 'public/applications/user'.auth()->user()->id.'/'.$document);
+            Storage::copy('public/documents/'.$document, 'public/applications/job'.$request->input('job_id').'/'.$document);
             $files[] = $document;
         }
 
@@ -60,7 +60,7 @@ class ApplicationsController extends Controller
 
         $employer->notify(new NewApplication(auth()->user(), $job));
 
-        return redirect('/dashboard')->with('success', 'Application Submitted.');
+        return redirect('/dashboard/applications/'.auth()->user()->id)->with('success', 'Application Submitted.');
 
     }
 
@@ -74,7 +74,7 @@ class ApplicationsController extends Controller
         $application = Application::find($id);
         $application->status = 'reviewed';
         $application->save();
-        return redirect('employer.applications')->with('sucess', 'Review Done.');
+        return back()->with('success', 'Review Done.');
     }
 
      /**
@@ -108,7 +108,7 @@ class ApplicationsController extends Controller
 
         $user->notify(new NewApplication(auth('employer')->user(), $application->job));
 
-        return back()->with('sucess', 'User has been shortlisted.');
+        return back()->with('success', 'User has been shortlisted.');
     }
 
     /**
@@ -125,11 +125,11 @@ class ApplicationsController extends Controller
         }
 
         if($application->documents != NULL) {
-            foreach($application->documents as $document) {
-                Storage::delete('public/applications/user/'.auth()->user()->id.'/'.$document);
+            foreach(json_decode($application->documents) as $document) {
+                Storage::delete('public/applications/job/'.$application->job_id.'/'.$document);
             }
         }
         $application->delete();
-        return redirect('/dashboard')->with('success', 'Application Deleted.');
+        return back()->with('success', 'Application Deleted.');
     }
 }
