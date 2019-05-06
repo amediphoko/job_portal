@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use App\Employer;
 use App\Job;
 use App\Application;
@@ -146,6 +147,10 @@ class EmployerController extends Controller
                 $message->subject($request->input('subject'));
             }
         );
+
+        if (count(Mail::failures()) > 0) {
+            return back()->with('error', 'failed to send account creation email to user check connection.');
+        }
     }
     
     public function update(Request $request, $id)

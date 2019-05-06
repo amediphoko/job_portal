@@ -53,8 +53,8 @@ class AdminController extends Controller
     public function acceptAccount($id)
     {
         $employer = Employer::find($id);
-        $employer->status = 'active';
-        $employer->save();
+        // $employer->status = 'active';
+        // $employer->save();
 
         /*send email*/
         $data = [
@@ -62,6 +62,10 @@ class AdminController extends Controller
         ];
 
         Mail::to($employer->email)->send(new EmployerRegister($data));
+
+        if (count(Mail::failures()) > 0) {
+            return back()->with('error', 'failed to send account creation email to user check connection.');
+        }
 
         return redirect('/admin')->with('success', $employer->name.'\'s account request Accepted.');
     }

@@ -58,16 +58,22 @@
             </div> 
         @endif          
     </div>
-    <div class="col-md-4" style="padding-top:2em">
+    <div class="col-md-4" style="padding-top:5em">
         <div style="border-radius:0" class="panel panel-default">
             <div class="panel-heading" style="background:#ebeaea">
                 <h4 class="panel-title">Related News</h4>
             </div>
-            <ul class="panel-body list-group">
-                <a class="list-group-item" href=""><i class="fa fa-angle-right"></i> something
-                    <span style="background:blue" class="badge"></span>
-                </a>
-            </ul>
+            @if (count($related) > 0)
+                <ul class="panel-body list-group">
+                    @foreach ($related as $item)
+                        @if ($item->id != $post->id)
+                            <a class="list-group-item" href="/posts/{{$item->id}}"><i class="fa fa-angle-right"></i> 
+                                {{$item->title}}
+                            </a>
+                        @endif
+                    @endforeach
+                </ul>
+            @endif
         </div>
     </div>
 @endsection

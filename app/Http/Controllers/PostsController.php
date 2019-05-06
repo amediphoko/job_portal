@@ -68,8 +68,10 @@ class PostsController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
+        $tags = Post::select('tags')->get();
+        $related = Post::whereIn('tags', $tags)->get();
         
-        return view('posts.show')->with('post', $post);
+        return view('posts.show')->with(['post' => $post, 'related' => $related]);
     }
 
     /**
